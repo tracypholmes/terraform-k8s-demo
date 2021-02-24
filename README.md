@@ -44,7 +44,7 @@ This installs the Terraform Kubernetes provider and creates a `.terraform` dir
 
 When the provider has completed installation.
 
-Terraform allows a dry-run of changes and displays the differences. This is done through executing terraform plan.
+Terraform allows a dry-run of changes and displays the differences. This is done through executing `terraform plan`.
 
 For a full reference, see [CLI documentation](https://www.terraform.io/docs/commands/plan.html).
 
