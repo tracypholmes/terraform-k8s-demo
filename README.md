@@ -45,7 +45,7 @@ If not, change the folder to `/root/terraform`. This is where the Terraform fil
 
 `$ cd /root/terraform`
 
-Next, initialize Terraform in the **Terraform** terminal tab.
+Next, initialize Terraform terminal.
 
 `terraform init`
 
