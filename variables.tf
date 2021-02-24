@@ -7,7 +7,7 @@ variable "namespace" {
 }
 
 variable "replicas" {
-  default = 1
+  default = 2
 }
 
 variable "user_id" {

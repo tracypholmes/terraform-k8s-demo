@@ -1,7 +1,7 @@
 terraform {
   required_version = "~> 0.13"
   required_providers {
-    mycloud = {
+    kubernetes = {
       source  = "hashicorp/kubernetes"
       version = "~> 2.0"
     }
@@ -9,5 +9,6 @@ terraform {
 }
 
 provider "kubernetes" {
-  host = "https://kubernetes:6443"
+  config_path    = "~/.kube/config"
+  config_context = "docker-desktop"
 }
