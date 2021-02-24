@@ -36,15 +36,6 @@ Terraform requires initialization before any configuration can be applied. Initi
 
 Review the `provider.tf` file and examine the provider configuration. The Kubernetes provider configuration includes version and authentication parameters.
 
-In the terminal, check that you are in the `/root/terraform` folder.
-
-`$ pwd
-/root/terraform`
-
-If not, change the folder to `/root/terraform`. This is where the Terraform files are located.
-
-`$ cd /root/terraform`
-
 Next, initialize Terraform terminal.
 
 `terraform init`
@@ -81,7 +72,7 @@ Alternately, you can run `terraform graph`. Copy the output and paste it into th
 
 What do you notice about the graph?
 
-To apply the changes, use terraform apply. This command will execute on plan.
+To apply the changes, use `terraform apply`. This command will execute on plan.
 
 See the [CLI documentation](https://www.terraform.io/docs/cli/commands/apply.html) for more information.
 
@@ -111,34 +102,21 @@ Maintaining state for Terraform is critical to demonstrate and evaluate the diff
 
 Let's change the backend state to demonstrate how we might configure a new backend. Before this step, we destroyed all of the previous infrastructure and state, so we start completely anew.
 
-We're going to configure a `local` backend to point to a different file path, specifically `/tmp/terraform.tfstate`.
+Rename `backend.remote` to `backend.tf`.
 
-Open the `provider.tf` file. It includes a section called `backend "remote"`.
-
-This directs the state file to `/tmp/terraform.tfstate`.
-
-Go to the **Terraform** tab and run:
+In the terminal, run:
 
 `terraform init`
 `terraform apply`
 
-You should be able to execute:
-
-`ls -al /tmp`
-
-and ensure there is a `terraform.tfstate` file in that directory.
-
-Input variables parametrize Terraform modules. They can be passed through command line as `-var key=value` or added to a file and passed with `-var-file filename.tfvars`.
-
-For more information about input variables, see [Terraform documentation](https://www.terraform.io/docs/configuration/variables.html).
+We're pointing to a remote backend to be used as a bucket. This remote backend is a workspace that lives in Terraform Cloud.
 
 ### **Update Variables**
 
-In this example, variables will be updated in the `terraform.tfvars` file. By default, this file will contains values that override the default ones in the `variables.tf` file.
+In this example, variables will be updated in the `variables.tf` file.
 
-In the `variables.tf` file, update the `name=` and `replicas=` to the following:
+In the `variables.tf` file, update the and `replicas=` to the following:
 
-`name="myapp"`
 `replicas=3`
 
 Note that the name is a string and must be in quotes.
