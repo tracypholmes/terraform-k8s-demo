@@ -1,6 +1,7 @@
 # HWTH - Automating Deployments with Terraform Walkthrough
 
 ## Introduction
+
 Terraform uses providers to interface with various APIs and exposing resources. A provider is versioned and included as part of a configuration file.
 
 ```bash
@@ -13,6 +14,7 @@ provider "kubernetes" {
 The [Kubernetes Provider](https://www.terraform.io/docs/providers/kubernetes/index.html) allows Terraform to make calls to the [Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/).
 
 ## Getting Started
+
 In this section, we'll make sure you have Terraform and Docker Desktop installed.
 
 ## Prerequisites
