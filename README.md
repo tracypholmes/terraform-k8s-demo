@@ -1,14 +1,29 @@
-# HWTH - Automating Deployments Walkthrough
+# HWTH - Automating Deployments with Terraform Walkthrough
 
+## Introduction
 Terraform uses providers to interface with various APIs and exposing resources. A provider is versioned and included as part of a configuration file.
 
 ```bash
 provider "kubernetes" {
-host = "[https://kubernetes:6443](https://kubernetes:6443/)"
+  config_path    = "~/.kube/config"
+  config_context = "docker-desktop"
 }
 ```
 
 The [Kubernetes Provider](https://www.terraform.io/docs/providers/kubernetes/index.html) allows Terraform to make calls to the [Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/).
+
+## Getting Started
+In this section, we'll make sure you have Terraform and Docker Desktop installed.
+
+## Prerequisites
+
+- Terraform 0.14
+- Docker Desktop for Windows/MacOS
+- Your favorite terminal or IDE
+
+If you don't already have Terraform installed, you can get instructions from [here](https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/aws-get-started).
+
+I use Windows and WSL on a daily basis, so have Docker Desktop installed to make it easier on me as Kubernetes integration is included. You can find the download and instructions [here](https://www.docker.com/products/docker-desktop). Note: You are more than welcome to use your own install of Kubernetes. If you do so, make sure you update the path in the `provider.tf` file.
 
 ### **Initialize Terraform**
 
@@ -17,9 +32,9 @@ Terraform requires initialization before any configuration can be applied. Initi
 1. Installs any required providers.
 2. Creates the local state directory or connects to the remote state store.
 
-In the **Editor** tab, review the `/root/terraform/provider.tf` file and examine the provider configuration. The Kubernetes provider configuration includes version and authentication parameters.
+Review the `provider.tf` file and examine the provider configuration. The Kubernetes provider configuration includes version and authentication parameters.
 
-In the **Terraform** tab, check that you are in the `/root/terraform` folder.
+In the terminal, check that you are in the `/root/terraform` folder.
 
 `$ pwd
 /root/terraform`
@@ -34,7 +49,7 @@ Next, initialize Terraform in the **Terraform** terminal tab.
 
 This installs the Terraform Kubernetes provider and creates a `.terraform` directory for local state management.
 
-When the provider has completed installation, hit **check** to continue.
+When the provider has completed installation.
 
 Terraform allows a dry-run of changes and displays the differences. This is done through executing terraform plan.
 
@@ -42,13 +57,11 @@ For a full reference, see [CLI documentation](https://www.terraform.io/docs/comm
 
 ### **Plan the Deployment**
 
-In the *Terraform* tab, run:
+In the terminal, run:
 
 `terraform plan -out=nginx.tfplan`
 
 It should output two changes and create a binary file called `nginx.tfplan`.
-
-Hit **check** to continue.
 
 Terraform uses graph theory to create and modify resources in the correct order.
 
@@ -72,13 +85,13 @@ See the [CLI documentation](https://www.terraform.io/docs/cli/commands/apply.htm
 
 ### **Apply the Deployment**
 
-In the **Terraform** tab, run:
+In the terminal, run:
 
 `terraform apply`
 
 This will apply the changes by deploying the nginx web server to the Kubernetes cluster.
 
-In the **Kubernetes** tab, execute:
+In the terminal, execute:
 
 `kubectl get pods`
 
@@ -98,16 +111,14 @@ Let's change the backend state to demonstrate how we might configure a new backe
 
 We're going to configure a `local` backend to point to a different file path, specifically `/tmp/terraform.tfstate`.
 
-Open the **Editor** tab.
-
-Open the `/root/terraform/provider.tf` file. It includes a section called `backend "local"`.
+Open the `provider.tf` file. It includes a section called `backend "remote"`.
 
 This directs the state file to `/tmp/terraform.tfstate`.
 
 Go to the **Terraform** tab and run:
 
-`terraform init
-terraform apply`
+`terraform init`
+`terraform apply`
 
 You should be able to execute:
 
@@ -115,8 +126,7 @@ You should be able to execute:
 
 and ensure there is a `terraform.tfstate` file in that directory.
 
-Input variables parametrize Terraform modules. They can be passed through command line as `-var key=value` or added to a file and passed with `-var-file
-filename.tfvars`.
+Input variables parametrize Terraform modules. They can be passed through command line as `-var key=value` or added to a file and passed with `-var-file filename.tfvars`.
 
 For more information about input variables, see [Terraform documentation](https://www.terraform.io/docs/configuration/variables.html).
 
@@ -124,22 +134,20 @@ For more information about input variables, see [Terraform documentation](https:
 
 In this example, variables will be updated in the `terraform.tfvars` file. By default, this file will contains values that override the default ones in the `variables.tf` file.
 
-Go the **Editor** tab. In the `terraform.tfvars` file, update the `name=` and `replicas=` to the following:
+In the `variables.tf` file, update the `name=` and `replicas=` to the following:
 
-`name="myapp"
-replicas=3`
+`name="myapp"`
+`replicas=3`
 
 Note that the name is a string and must be in quotes.
 
 Save the file by using Ctrl+S.
 
-Next, go to the **Terraform** tab. Run:
+Next, in your terminal run:
 
 `terraform apply`
 
 Type "yes" to apply the changes. You should see it recreate many of the resources, including the name of the application and the number of replicas.
-
-Hit **check** to complete the challenge.
 
 You can destroy resources with Terraform as well. As long as they are in Terraform state, Terraform will clean up the resources.
 
@@ -151,13 +159,13 @@ Finally, destroy the resources in the Kubernetes cluster.
 
 You want to destroy the resources in order to clean up any unused infrastructure.
 
-In the **Terraform** tab, type:
+In the terminal, type:
 
 `$ terraform destroy`
 
 Enter "yes" on the prompt to destroy the resources you've created in the Kubernetes cluster.
 
-In the **Kubernetes** tab, you can type:
+In the terminal, you can type:
 
 ```bash
 $ kubectl get pods
