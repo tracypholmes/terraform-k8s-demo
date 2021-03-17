@@ -1,4 +1,4 @@
-# HWTH - Automating Deployments with Terraform Walkthrough
+# Automating Deployments with Terraform Walkthrough
 
 ## Introduction
 
